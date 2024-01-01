@@ -1,0 +1,27 @@
+name: Execute pintos tests
+
+on:
+  pull_request:
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    container:
+      image: alainchevanier/so-20231-pintos
+      volumes:
+        -  ${{ github.workspace }}:/app
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Compile
+        run: |
+          cd /app/src/threads
+          make
+      - name: Run tests - Alarm Clock
+        run: |
+          cd /app/src/threads
+          bash execute-tests-assignment-01
+      - name: Run tests - Priority Scheduler
+        run: |
+          cd /app/src/threads
+          bash execute-tests-assignment-02

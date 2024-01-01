@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+TESTS_SYSCALLS_PROCESSES="exit exec-once exec-arg exec-missing exec-multiple wait-simple wait-twice wait-bad-pid"
+# TESTS_SYSCALLS_PROCESSES="${TESTS_SYSCALLS_PROCESSES} wait-killed exec-bound exec-bound-2 exec-bound-3 exec-bad-ptr"
+
+bash ../execute-tests "userprog" "$TESTS_SYSCALLS_PROCESSES"

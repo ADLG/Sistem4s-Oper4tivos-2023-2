@@ -1,0 +1,35 @@
+name: Execute pintos tests
+
+on:
+  pull_request:
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    container:
+      image: alainchevanier/so-20231-pintos
+      volumes:
+        -  ${{ github.workspace }}:/app
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Compile
+        run: |
+          cd /app/src/userprog
+          make
+      - name: Run tests - Argument Passing
+        run: |
+          cd /app/src/userprog
+          bash execute-tests-argument-passing
+      - name: Run tests - Syscalls Processes
+        run: |
+          cd /app/src/userprog
+          bash execute-tests-processes-syscalls
+      - name: Run tests - Syscalls File System
+        run: |
+          cd /app/src/userprog
+          bash execute-tests-filesys-syscalls
+      - name: Run tests - File System
+        run: |
+          cd /app/src/userprog
+          bash execute-tests-filesys

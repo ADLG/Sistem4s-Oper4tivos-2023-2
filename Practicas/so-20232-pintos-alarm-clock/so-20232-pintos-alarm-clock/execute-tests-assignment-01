@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+TESTS_ALARM_CLOCK="alarm-single alarm-zero alarm-negative alarm-multiple alarm-simultaneous"
+
+cd build
+
+TOTAL_TESTS=$(echo "$TESTS_ALARM_CLOCK" | wc -w)
+TESTS_PASSED=0
+
+for test_name in $TESTS_ALARM_CLOCK; do
+    make tests/threads/${test_name}.result
+    CURRENT_RESULT=$(cat tests/threads/${test_name}.result)
+    if [ "${CURRENT_RESULT}" == "PASS" ] ;  then
+        TESTS_PASSED=$((TESTS_PASSED + 1))
+    fi
+done
+
+cd ..
+
+echo "SUMMARY ${TESTS_PASSED}/${TOTAL_TESTS} PASS"
+
+if [ "${TESTS_PASSED}" == "${TOTAL_TESTS}" ] ;  then
+    echo "TESTS SUCCEDED"
+    exit 0
+else
+    echo "TESTS FAILED"
+    exit -1
+fi

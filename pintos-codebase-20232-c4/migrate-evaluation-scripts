@@ -1,0 +1,8 @@
+#! /usr/bin/env bash
+
+for SRC_FILE in $(find src/userprog -type f -name execute-tests-*); do 
+	BASE_FILENAME=$(basename -- ${SRC_FILE})
+	TARGET_FILE="src/vm/${BASE_FILENAME}.project2"
+	cp "${SRC_FILE}" "${TARGET_FILE}"
+	sed -i -- 's/-- -q/--swap-size=4 -- -q/g' "${TARGET_FILE}"
+done

@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+cd build
+
+TESTS="args-none args-single args-multiple args-many args-dbl-space"
+
+TOTAL_TESTS=$(echo "${TESTS}" | wc -w)
+TESTS_PASSED=0
+BASE_DIR="userprog"
+
+for test_name in $TESTS; do
+    make tests/$BASE_DIR/${test_name}.result 
+    CURRENT_RESULT=$(cat tests/$BASE_DIR/${test_name}.result)
+    if [ "${CURRENT_RESULT}" == "PASS" ] ;  then
+        TESTS_PASSED=$((TESTS_PASSED + 1))
+    fi
+done
+
+cd ..
+
+echo "SUMMARY ${TESTS_PASSED}/${TOTAL_TESTS} PASS"
+
+if [ "${TESTS_PASSED}" == "${TOTAL_TESTS}" ] ;  then
+    echo "TESTS SUCCEDED"
+    exit 0
+else
+    echo "TESTS FAILED"
+    exit -1
+fi
